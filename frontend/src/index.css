@@ -1,0 +1,87 @@
+@import url(./vendor/normalize.css);
+@import url(./vendor/fonts/fonts.css);
+@import url(./blocks/page/page.css);
+/*header*/
+@import url(./blocks/header/header.css);
+@import url(./blocks/header/__logo/header__logo.css);
+@import url(./blocks/header/__navigation/header__navigation.css);
+@import url(./blocks/header/__user-info/header__user-info.css);
+@import url(./blocks/header/__log-out/header__log-out.css);
+@import url(./blocks/header/__email/header__email.css);
+@import url(./blocks/header/__link/header__link.css);
+/*profile*/
+@import url(./blocks/profile/profile.css);
+@import url(./blocks/profile/__avatar/profile__avatar.css);
+@import url(./blocks/profile/__edit-avatar/profile__edit-avatar.css);
+@import url(./blocks/profile/__info/profile__info.css);
+@import url(./blocks/profile/__container/profile__container.css);
+@import url(./blocks/profile/__name/profile__name.css);
+@import url(./blocks/profile/__post/profile__post.css);
+@import url(./blocks/profile/__edit-button/profile__edit-button.css);
+@import url(./blocks/profile/__add-button/profile__add-button.css);
+/*main*/
+@import url(./blocks/main/main.css);
+/*element*/
+@import url(./blocks/elements/elements.css);
+@import url(./blocks/element/element.css);
+@import url(./blocks/element/__delete-button/element__delete-button.css);
+@import url(./blocks/element/__item/element__item.css);
+@import url(./blocks/element/__image/element__image.css);
+@import url(./blocks/element/__caption/element__caption.css);
+@import url(./blocks/element/__text/element__text.css);
+@import url(./blocks/element/__like-container/element__like-container.css);
+@import url(./blocks/element/__like/element__like.css);
+@import url(./blocks/element/__like/_active/element__like-active.css);
+@import url(./blocks/element/__like-sum/element__like-sum.css);
+/*footer*/
+@import url(./blocks/footer/footer.css);
+@import url(./blocks/footer/__info/footer__info.css);
+/*popap*/
+@import url(./blocks/popap/popap.css);
+@import url(./blocks/popap/_opened/popap_opened.css);
+@import url(./blocks/popap/_edit-profile/popup_edit-profile.css);
+@import url(./blocks/popap/__container/popap__container.css);
+@import url(./blocks/popap/__close/popap__close.css);
+@import url(./blocks/popap/__title/popap__title.css);
+@import url(./blocks/popap/__message/popap__message.css);
+@import url(./blocks/form/form.css);
+@import url(./blocks/form/_edit/form_edit.css);
+@import url(./blocks/form/__title/form__title.css);
+@import url(./blocks/form/__textarea/form__textarea.css);
+@import url(./blocks/form/__textarea/_error/form__textarea_error.css);
+@import url(./blocks/form/__span/form__span.css);
+@import url(./blocks/form/__span/_active/form__span_active.css);
+@import url(./blocks/form/__button/form__button.css);
+@import url(./blocks/form/__button/_disabled/form__button_disabled.css);
+/*popap-add*/
+@import url(./blocks/popap/_add-card/popap_add-card.css);
+@import url(./blocks/form-item/form-item.css);
+@import url(./blocks/form-item/__fieldset/form-item__fieldset.css);
+@import url(./blocks/form-item/__title/form-item__title.css);
+
+@import url(./blocks/form/__textarea/_element/form-item__textarea_element_name.css);
+@import url(./blocks/form/__textarea/_element/form-item__textarea_element_url.css);
+/* popap-open-card*/
+@import url(./blocks/popap/_open-card/popap_open-card.css);
+@import url(./blocks/popap/__card-container/popap__card-container.css);
+@import url(./blocks/popap/__box/popap__box.css);
+@import url(./blocks/popap/__image/popap__image.css);
+@import url(./blocks/popap/__caption/popap__caption.css); 
+
+/*popap-delete-card*/
+@import url(./blocks/popap/_delete-card/popap_delete-card.css);
+@import url(./blocks/popap/__delete-container/popap__delete-container.css);
+@import url(./blocks/form/_delete/form_delete.css);
+
+/*popap-avatar*/
+@import url(./blocks/popap/_avatar/popap_avatar.css);
+@import url(./blocks/popap/__avatar-container/popap__avatar-container.css);
+@import url(./blocks/form/__textarea/_popap/form__textarea_popap_avatar.css);
+@import url(./blocks/form/_avatar/form_avatar.css);
+
+/* auth */
+@import url(./blocks/form/__textarea/_auth/form__textarea_auth_email.css);
+@import url(./blocks/form/__textarea/_auth/form__textarea_auth_password.css);
+@import url(./blocks/form/__button/_auth/form__button_auth.css);
+@import url(./blocks/form/__title/_auth/form__title_auth.css);
+@import url(./blocks/form/__button/_caption/form__button_caption.css);

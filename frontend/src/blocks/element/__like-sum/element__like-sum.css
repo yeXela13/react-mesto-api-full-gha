@@ -1,0 +1,11 @@
+.element__like-sum {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    align-self: center;
+    width: 10px;
+    color: #000000;
+    margin: 3px 0 0;
+}

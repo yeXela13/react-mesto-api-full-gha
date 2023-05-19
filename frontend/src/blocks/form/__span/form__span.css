@@ -1,0 +1,21 @@
+.form__span {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    color: #FF0000;
+    margin-left: 36px;
+    float: left;
+    display: block;
+    min-height: 30px;
+    visibility: hidden;
+}
+
+@media screen and (max-width: 568px) {
+    .form__span {
+        margin-left: 22px;
+    }
+}
+
+.form__span:last-child {
+    margin-bottom: 0;
+}

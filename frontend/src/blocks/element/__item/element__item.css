@@ -1,0 +1,12 @@
+.element__item {
+    width: 282px;
+    background: #FFFFFF;
+    border-radius: 10px;
+    position: relative;
+}
+
+@media screen and (max-width: 655px) {
+    .element__item {
+        box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+    }
+}

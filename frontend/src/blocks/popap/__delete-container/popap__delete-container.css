@@ -1,0 +1,14 @@
+.popap__delete-container {
+    position: relative;
+    width: 430px;
+    height: 181px;
+    background-color: #FFFFFF;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+}
+
+@media screen and (max-width: 568px) {
+    .popap__delete-container {
+        max-width: 282px;
+    }
+}

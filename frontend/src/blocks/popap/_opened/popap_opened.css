@@ -1,0 +1,6 @@
+.popap_opened {
+
+    visibility: visible;
+    transition: visibility 0.6s, opacity 0.6s;
+    opacity: 1;
+}

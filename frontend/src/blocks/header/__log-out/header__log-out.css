@@ -1,0 +1,11 @@
+.header__log-out {
+    border: 0;
+    color: #A9A9A9;
+    margin-left: 24px;
+    background: transparent;
+    cursor: pointer;
+}
+
+.header__log-out:hover {
+    opacity: 0.8;
+}
