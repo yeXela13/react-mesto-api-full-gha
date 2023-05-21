@@ -34,6 +34,7 @@ function App() {
     const [loading, setLoading] = useState(true);
     const [infoToolTipData, setInfoToolTipData] = useState({ text: '', image: '' })
 
+    const navigate = useNavigate();
     useEffect(() => {
         loggedIn &&
             Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -44,6 +45,86 @@ function App() {
                 .catch((res) => console.log(res));
 
     }, [loggedIn]);
+    
+    const cbAuthenticate = useCallback(data => {
+        if (data.token) {
+            localStorage.setItem('token', data.token);
+            setLoggedIn(true);
+            setUserData(data.email);
+        }
+    }, [])
+
+    const cbLogin = useCallback(async (userData) => {
+        try {
+            const data = await authorization(userData)
+            cbAuthenticate(data);
+            setUserEmail(userData.email)
+            console.log(userData.email)
+            navigate("/", { replace: true });
+        } catch (e) {
+            console.error(e)
+            handleInfoTooltip();
+            setInfoToolTipData({ text: 'Что-то пошло не так! Попробуйте ещё раз', image: unCorrectStatus })
+        } finally {
+            setLoading(false)
+        }
+    }, [cbAuthenticate, navigate])
+
+    const cbRegister = useCallback(async (userData) => {
+        try {
+            const data = await registration(userData)
+            cbAuthenticate(data);
+            setInfoToolTipData({ text: 'Вы успешно зарегистрировались!', image: correctStatus })
+            navigate("/sign-in", { replace: true });
+        } catch (e) {
+            console.error(e)
+            setInfoToolTipData({ text: 'Что-то пошло не так! Попробуйте ещё раз', image: unCorrectStatus })
+        }
+        finally {
+            handleInfoTooltip();
+            setLoading(false)
+        }
+    }, [cbAuthenticate, navigate])
+
+    const cbTokenCheck = useCallback(async () => {
+        const token = localStorage.getItem('token')
+        setLoading(false)
+        if (token) {
+            try {
+                const user = await getContent(token);
+                if (!user) {
+                    throw new Error('пользователь с email не найден')
+                }
+                if (!token) {
+                    throw new Error('Токен не передан или передан не в том формате')
+                }
+                setUserData(user.data.email)
+                setUserEmail(user.data.email)
+                setLoggedIn(true)
+                navigate("/", { replace: true })
+            } catch (e) {
+                console.error(e)
+            } finally {
+                setLoading(false)
+            }
+        }
+    }, [navigate])
+
+    const cbLogout = useCallback(() => {
+        localStorage.removeItem('token')
+        setLoggedIn(false)
+        setUserData({ password: '', email: '' })
+        navigate("/sign-in", { replace: true });
+        setLoading(false)
+    }, [navigate])
+
+    useEffect(() => {
+        cbTokenCheck();
+    }, [cbTokenCheck]);
+
+    if (loading) {
+        return 'Loading'
+    }
 
     function handleEditAvatarClick() {
         setIsEditAvatarPopupOpen(true);
@@ -84,6 +165,7 @@ function App() {
 
     function handleUpdateUser(data) {
         api.setUserInfo(data)
+        console.log(data)
             .then((userData) => {
                 setCurrentUser(userData);
                 closeAllPopups();
@@ -93,7 +175,7 @@ function App() {
 
     function handleUpdateAvatar(data) {
         api.setUserAvatar(data)
-            .then((userData) => {
+        .then((userData) => {
                 setCurrentUser(userData);
                 closeAllPopups();
             })
@@ -118,88 +200,7 @@ function App() {
         setSelectedCard(null);
     }
 
-    const navigate = useNavigate();
 
-    const cbAuthenticate = useCallback(data => {
-        if (data.token) {
-            localStorage.setItem('token', data.token);
-            setLoggedIn(true);
-            setUserData(data.email);
-        }
-    }, [])
-
-    const cbLogin = useCallback(async (userData) => {
-        try {
-            const data = await authorization(userData)
-            cbAuthenticate(data);
-            // setUserEmail(userData.email)
-            console.log(userData.email)
-            navigate("/", { replace: true });
-        } catch (e) {
-            console.error(e)
-            handleInfoTooltip();
-            setInfoToolTipData({ text: 'Что-то пошло не так! Попробуйте ещё раз', image: unCorrectStatus })
-        } finally {
-            setLoading(false)
-        }
-    }, [cbAuthenticate, navigate])
-
-    const cbRegister = useCallback(async (userData) => {
-        try {
-            const data = await registration(userData)
-            cbAuthenticate(data);
-            setInfoToolTipData({ text: 'Вы успешно зарегистрировались!', image: correctStatus })
-            navigate("/sign-in", { replace: true });
-        } catch (e) {
-            console.error(e)
-            setInfoToolTipData({ text: 'Что-то пошло не так! Попробуйте ещё раз', image: unCorrectStatus })
-        }
-        finally {
-            handleInfoTooltip();
-            setLoading(false)
-        }
-    }, [cbAuthenticate, navigate])
-
-
-    const cbTokenCheck = useCallback(async () => {
-        const token = localStorage.getItem('token')
-        setLoading(false)
-        if (token) {
-            try {
-                const user = await getContent(token);
-                if (!user) {
-                    throw new Error('пользователь с email не найден')
-                }
-                if (!token) {
-                    throw new Error('Токен не передан или передан не в том формате')
-                }
-                setUserData(user.data.email);
-                setUserEmail(user.data.email)
-                setLoggedIn(true)
-                navigate("/", { replace: true })
-            } catch (e) {
-                console.error(e)
-            } finally {
-                setLoading(false)
-            }
-        }
-    }, [navigate])
-
-    const cbLogout = useCallback(() => {
-        localStorage.removeItem('token')
-        setLoggedIn(false)
-        setUserData({ password: '', email: '' })
-        navigate("/sign-in", { replace: true });
-        setLoading(false)
-    }, [navigate])
-
-    useEffect(() => {
-        cbTokenCheck();
-    }, [cbTokenCheck]);
-
-    if (loading) {
-        return 'Loading'
-    }
 // console.log(userEmail)
     return (
         <CurrentUserContext.Provider value={currentUser}>

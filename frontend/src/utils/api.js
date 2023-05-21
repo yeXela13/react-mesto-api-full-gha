@@ -1,9 +1,18 @@
+import { BASE_URL } from './auth';
+
 class Api {
     constructor(options) {
         this._options = options;
         this._baseUrl = this._options.baseUrl;
         this._headers = this._options.headers;
     }
+
+    _checkHeaders = () => {
+        this._token = localStorage.getItem('token');
+        this._headers.authorization = `Bearer ${this._token}`;
+        return this._headers;
+    };
+
     _checkResponse(res) {
         if (res.ok) {
             return res.json();
@@ -12,49 +21,49 @@ class Api {
     }
 
     _request(url, options) {
-         return fetch(url, options).then(this._checkResponse)
+        return fetch(url, options).then(this._checkResponse)
     }
 
     getUserInfo() {
         return this._request(`${this._baseUrl}/users/me`, {
-            headers: this._headers
+            headers: this._checkHeaders(),
         })
     }
 
-    setUserInfo(data) {
+    setUserInfo(name, about) {
         return this._request(`${this._baseUrl}/users/me`, {
             method: 'PATCH',
-            headers: this._headers,
+            headers: this._checkHeaders(),
             body: JSON.stringify({
-                name: data.name,
-                about: data.about
+                name,
+                about
             })
         })
     }
 
     getInitialCards() {
         return this._request(`${this._baseUrl}/cards`, {
-            headers: this._headers
+            headers: this._checkHeaders(),
         })
     }
 
-    addedCard(data) {
+    addedCard(name, link) {
         return this._request(`${this._baseUrl}/cards`, {
             method: 'POST',
-            headers: this._headers,
+            headers: this._checkHeaders(),
             body: JSON.stringify({
-                name: data.name,
-                link: data.link
+                link,
+                name
             })
         })
     }
 
-    setUserAvatar(data) {
+    setUserAvatar(avatar) {
         return this._request(`${this._baseUrl}/users/me/avatar`, {
             method: 'PATCH',
-            headers: this._headers,
+            headers: this._checkHeaders(),
             body: JSON.stringify({
-                avatar: data.avatar
+                avatar
             })
         })
     }
@@ -62,7 +71,7 @@ class Api {
     deleteCard(cardId) {
         return this._request(`${this._baseUrl}/cards/${cardId}`, {
             method: 'DELETE',
-            headers: this._headers
+            headers: this._checkHeaders(),
         })
     }
 
@@ -70,21 +79,22 @@ class Api {
         if (isLiked) {
             return this._request(`${this._baseUrl}/cards/likes/${cardId}`, {
                 method: 'PUT',
-                headers: this._headers
+                headers: this._checkHeaders(),
             })
         }
         return this._request(`${this._baseUrl}/cards/likes/${cardId}`, {
             method: 'DELETE',
-            headers: this._headers
+            headers: this._checkHeaders(),
         })
     }
 }
-
 const api = new Api({
-    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-59',
+    // baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-59',
+    baseUrl: BASE_URL,
     headers: {
-        authorization: 'fb15d3cd-51f7-4c56-adbf-e4fa5201b028',
+        // authorization: 'fb15d3cd-51f7-4c56-adbf-e4fa5201b028',
         // authorization: `Bearer ${token}`,
+        "Accept": "application/json",
         'Content-Type': 'application/json'
     }
 });

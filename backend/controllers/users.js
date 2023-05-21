@@ -6,7 +6,7 @@ const NotFoundError = require('../handles/NotFoundError');
 
 const getUsers = (req, res, next) => {
   userSchema.find({})
-    .then((users) => res.send(users))
+    .then((data) => res.send({ data }))
     .catch(next);
 };
 
@@ -16,7 +16,7 @@ const getUserMyInfo = (req, res, next) => {
     .orFail(() => {
       throw new NotFoundError('Такого пользователя не существует');
     })
-    .then((user) => res.status(http2.HTTP_STATUS_OK).send({ user }))
+    .then((data) => res.status(http2.HTTP_STATUS_OK).send(data))
     .catch(next);
 };
 
@@ -26,7 +26,7 @@ const getUser = (req, res, next) => {
     .orFail(() => {
       throw new NotFoundError('Такого пользователя не существует');
     })
-    .then((user) => res.status(http2.HTTP_STATUS_OK).send({ user }))
+    .then((data) => res.status(http2.HTTP_STATUS_OK).send(data))
     .catch(next);
 };
 
@@ -50,22 +50,30 @@ const createUser = async (req, res, next) => {
     .catch(next);
 };
 
-const updateInfo = (req, res, updateData, next) => {
-  const id = req.user._id;
-  userSchema.findByIdAndUpdate(id, updateData, { new: true, runValidators: true })
-    .orFail()
-    .then((user) => res.send({ user }))
+const updateInfo = (req, res, next, updateData) => {
+  userSchema.findByIdAndUpdate(
+    req.user._id,
+    updateData,
+    { new: true, runValidators: true },
+  )
+    .then((user) => {
+      if (user) {
+        res.send(user);
+      } else {
+        throw new NotFoundError('Пользователь не найден');
+      }
+    })
     .catch(next);
 };
 
 const updateUser = (req, res, next) => {
-  const userData = req.body;
-  updateInfo(req, res, userData, next);
+  const { name, about } = req.body;
+  updateInfo(req, res, { name, about }, next);
 };
 
 const updateAvatar = (req, res, next) => {
-  const updatedAvatar = req.body;
-  updateInfo(req, res, updatedAvatar, next);
+  const { avatar } = req.body;
+  updateInfo(req, res, { avatar }, next);
 };
 
 const login = (req, res, next) => {

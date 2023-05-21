@@ -5,8 +5,8 @@ const ForbiddenError = require('../handles/ForbiddenError');
 const getCards = (req, res, next) => {
   cardSchema.find()
     .populate(['owner', 'likes'])
-    .then((cards) => {
-      res.status(http2.HTTP_STATUS_OK).send({ cards });
+    .then((card) => {
+      res.status(http2.HTTP_STATUS_OK).send(card);
     })
     .catch(next);
 };
@@ -15,8 +15,9 @@ const createCard = (req, res, next) => {
   const id = req.user._id;
   const { name, link } = req.body;
   cardSchema.create({ name, link, owner: id })
+    .then((card) => card.populate('owner'))
     .then((card) => {
-      res.status(http2.HTTP_STATUS_CREATED).send({ data: card });
+      res.status(http2.HTTP_STATUS_CREATED).send(card);
     })
     .catch(next);
 };

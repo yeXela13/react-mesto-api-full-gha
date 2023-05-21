@@ -7,9 +7,9 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        onUpdateAvatar({
-            avatar: setAvatar.current.value,
-        });
+        onUpdateAvatar(
+            setAvatar.current.value,
+        );
     }
 
     return (
