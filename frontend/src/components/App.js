@@ -45,7 +45,7 @@ function App() {
                 .catch((res) => console.log(res));
 
     }, [loggedIn]);
-    
+
     const cbAuthenticate = useCallback(data => {
         if (data.token) {
             localStorage.setItem('token', data.token);
@@ -98,8 +98,8 @@ function App() {
                 if (!token) {
                     throw new Error('Токен не передан или передан не в том формате')
                 }
-                setUserData(user.data.email)
-                setUserEmail(user.data.email)
+                // setUserData(user.data.email)
+                // setUserEmail(user.data.email)
                 setLoggedIn(true)
                 navigate("/", { replace: true })
             } catch (e) {
@@ -148,7 +148,7 @@ function App() {
         const isLiked = card.likes.some(i => i._id === currentUser._id);
         api.changeLikeCardStatus(card._id, !isLiked)
             .then((newCard) => {
-                setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+                setCards((state) => state.map((c) => c._id === card ? newCard : c));
             })
             .catch((res) => console.log(res));
     }
@@ -163,27 +163,26 @@ function App() {
             .catch((res) => console.log(res));
     }
 
-    function handleUpdateUser(data) {
-        api.setUserInfo(data)
-        console.log(data)
-            .then((userData) => {
-                setCurrentUser(userData);
+    function handleUpdateUser({ name, about }) {
+        api.setUserInfo(name, about)
+            .then(({ name, about, avatar, _id }) => {
+                setCurrentUser({ name, about, avatar, _id });
                 closeAllPopups();
             })
             .catch((res) => console.log(res));
     }
 
-    function handleUpdateAvatar(data) {
-        api.setUserAvatar(data)
-        .then((userData) => {
-                setCurrentUser(userData);
+    function handleUpdateAvatar({ avatar }) {
+        api.setUserAvatar(avatar)
+            .then(({ avatar }) => {
+                setCurrentUser({ ...currentUser, avatar });
                 closeAllPopups();
             })
             .catch((res) => console.log(res));
     }
 
-    function handleAddPlaceSubmit(data) {
-        api.addedCard(data)
+    function handleAddPlaceSubmit({ name, link }) {
+        api.addedCard(name, link)
             .then((newCard) => {
                 setCards([newCard, ...cards]);
                 closeAllPopups();
@@ -201,7 +200,7 @@ function App() {
     }
 
 
-// console.log(userEmail)
+    // console.log(userEmail)
     return (
         <CurrentUserContext.Provider value={currentUser}>
             <div className="page">

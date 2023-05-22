@@ -12,8 +12,8 @@ const getCards = (req, res, next) => {
 };
 
 const createCard = (req, res, next) => {
-  const id = req.user._id;
   const { name, link } = req.body;
+  const id = req.user._id;
   cardSchema.create({ name, link, owner: id })
     .then((card) => card.populate('owner'))
     .then((card) => {
