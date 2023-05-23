@@ -59,7 +59,7 @@ function App() {
             const data = await authorization(userData)
             cbAuthenticate(data);
             setUserEmail(userData.email)
-            console.log(userData.email)
+            // console.log(userData.email)
             navigate("/", { replace: true });
         } catch (e) {
             console.error(e)
@@ -118,23 +118,6 @@ function App() {
         setLoading(false)
     }, [navigate])
 
-    const handleCardLike = useCallback(
-        async (card) => {
-          const isLiked = card.likes.some((item) => item === currentUser._id);
-          try {
-            const data = await api.changeLikeCardStatus(card._id, isLiked);
-            if (data) {
-              setCards((state) =>
-                state.map((item) => (item._id === card._id ? data : item))
-              );
-            }
-          } catch (err) {
-            console.log(err);
-          }
-        },
-        [currentUser._id]
-      );
-
     useEffect(() => {
         cbTokenCheck();
     }, [cbTokenCheck]);
@@ -161,22 +144,14 @@ function App() {
     function handleDeleteConfirmClick() {
         setIsDeletePopupOpen(true);
     }
-    // function handleCardLike(card) {
-    //     const isLiked = card.likes.some(i => i._id === currentUser._id);
-    //     if(isLiked) {
-    //         api.changeLikeCardStatus(card._id, isLiked)
-    //             .then((newCard) => {
-    //                 setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-    //             })
-    //             .catch((res) => console.log(res));
-    //     } else {
-    //         api.changeLikeCardStatus(card._id, isLiked)
-    //             .then((newCard) => {
-    //                 setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-    //             })
-    //             .catch((res) => console.log(res));
-    //     }
-    // }
+    function handleCardLike(card) {
+        const isLiked = card.likes.some(i => i._id === currentUser._id);
+        api.changeLikeCardStatus(card._id, isLiked)
+            .then((newCard) => {
+                setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+            })
+            .catch((res) => console.log(res));
+    }
 
     function handleCardDelete(card) {
         handleDeleteConfirmClick();
