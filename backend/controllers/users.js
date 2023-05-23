@@ -1,3 +1,4 @@
+// const { JWT_SECRET } = process.env;
 const http2 = require('http2').constants;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');

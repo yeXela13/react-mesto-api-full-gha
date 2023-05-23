@@ -40,7 +40,7 @@ function App() {
             Promise.all([api.getUserInfo(), api.getInitialCards()])
                 .then(([userData, cardsData]) => {
                     setCurrentUser(userData);
-                    setCards(cardsData);
+                    setCards(cardsData.reverse());
                 })
                 .catch((res) => console.log(res));
 
@@ -99,7 +99,7 @@ function App() {
                     throw new Error('Токен не передан или передан не в том формате')
                 }
                 // setUserData(user.data.email)
-                // setUserEmail(user.data.email)
+                setUserEmail(user.data.email)
                 setLoggedIn(true)
                 navigate("/", { replace: true })
             } catch (e) {
@@ -117,6 +117,23 @@ function App() {
         navigate("/sign-in", { replace: true });
         setLoading(false)
     }, [navigate])
+
+    const handleCardLike = useCallback(
+        async (card) => {
+          const isLiked = card.likes.some((item) => item === currentUser._id);
+          try {
+            const data = await api.changeLikeCardStatus(card._id, isLiked);
+            if (data) {
+              setCards((state) =>
+                state.map((item) => (item._id === card._id ? data : item))
+              );
+            }
+          } catch (err) {
+            console.log(err);
+          }
+        },
+        [currentUser._id]
+      );
 
     useEffect(() => {
         cbTokenCheck();
@@ -144,15 +161,22 @@ function App() {
     function handleDeleteConfirmClick() {
         setIsDeletePopupOpen(true);
     }
-    function handleCardLike(card) {
-        const isLiked = card.likes.some(i => i._id === currentUser._id);
-        api.changeLikeCardStatus(card._id, !isLiked)
-            .then((newCard) => {
-                console.log(card)
-                setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-            })
-            .catch((res) => console.log(res));
-    }
+    // function handleCardLike(card) {
+    //     const isLiked = card.likes.some(i => i._id === currentUser._id);
+    //     if(isLiked) {
+    //         api.changeLikeCardStatus(card._id, isLiked)
+    //             .then((newCard) => {
+    //                 setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+    //             })
+    //             .catch((res) => console.log(res));
+    //     } else {
+    //         api.changeLikeCardStatus(card._id, isLiked)
+    //             .then((newCard) => {
+    //                 setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+    //             })
+    //             .catch((res) => console.log(res));
+    //     }
+    // }
 
     function handleCardDelete(card) {
         handleDeleteConfirmClick();
@@ -199,7 +223,6 @@ function App() {
         setInfoTooltipOpen(false)
         setSelectedCard(null);
     }
-
 
     // console.log(userEmail)
     return (

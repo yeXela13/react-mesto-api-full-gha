@@ -47,7 +47,7 @@ const setLike = (req, res, next) => {
     .orFail()
     .populate(['owner', 'likes'])
     .then((card) => {
-      res.status(http2.HTTP_STATUS_OK).send({ card });
+      res.status(http2.HTTP_STATUS_OK).send(card);
     })
     .catch(next);
 };
@@ -61,7 +61,7 @@ const deleteLike = (req, res, next) => {
     .orFail()
     .populate(['owner', 'likes'])
     .then((card) => {
-      res.status(http2.HTTP_STATUS_OK).send({ card });
+      res.status(http2.HTTP_STATUS_OK).send(card);
     })
     .catch(next);
 };

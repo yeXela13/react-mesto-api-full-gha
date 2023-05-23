@@ -1,3 +1,5 @@
+// require('dotenv').config();
+// console.log(process.env.NODE_ENV);
 const express = require('express');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
@@ -25,6 +27,11 @@ app.use(cors);
 
 app.use(requestLogger);
 
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 app.use(router);
 
 app.use(errorLogger);
