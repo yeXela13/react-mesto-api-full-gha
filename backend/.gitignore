@@ -15,4 +15,5 @@ node_modules
 .vscode
 
 # ENV files
+*.env
 .env

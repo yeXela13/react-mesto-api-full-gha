@@ -1,12 +1,13 @@
 const allowedCors = [
-  'http://158.160.102.248',
-  'https://10.128.0.30',
+  'http://51.250.93.202',
+  'https://10.128.0.15',
   'http://domainname.alexey.nomoredomains.monster',
   'https://domainname.alexey.nomoredomains.monster',
   'http://alexey.back.nomoredomains.monster',
   'https://alexey.back.nomoredomains.monster',
   'http://localhost:3000',
   'http://localhost:3005',
+  '*',
 ];
 
 const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';

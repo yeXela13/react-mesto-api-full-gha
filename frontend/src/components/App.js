@@ -27,6 +27,7 @@ function App() {
     const [selectedCard, setSelectedCard] = useState(null);
     const [infoTooltipOpen, setInfoTooltipOpen] = useState(false);
     const [cards, setCards] = useState([]);
+    const [cardToDelete, setCardToDelete] = useState({});
     const [currentUser, setCurrentUser] = useState({});
     const [loggedIn, setLoggedIn] = useState(false);
     const [userData, setUserData] = useState({ password: '', email: '' });
@@ -141,19 +142,20 @@ function App() {
     function handleCardClick(card) {
         setSelectedCard(card);
     }
-    function handleDeleteConfirmClick() {
+    function handleDeleteConfirmClick(card) {
         setIsDeletePopupOpen(true);
+        setCardToDelete(card);
     }
-    
+
     function handleCardLike(card) {
         const isLiked = card.likes.some(i => i._id === currentUser._id);
-        api.changeLikeCardStatus(card._id, !isLiked)
+        api.changeLikeCardStatus(card._id, isLiked)
             .then((newCard) => {
                 setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
             })
             .catch((res) => console.log(res));
-        }
-    
+    }
+
 
     function handleCardDelete(card) {
         handleDeleteConfirmClick();
@@ -199,6 +201,7 @@ function App() {
         setIsDeletePopupOpen(false);
         setInfoTooltipOpen(false)
         setSelectedCard(null);
+        setCardToDelete({});
     }
 
     // console.log(userEmail)
@@ -228,10 +231,10 @@ function App() {
                             onEditAvatar={handleEditAvatarClick}
                             onEditProfile={handleEditProfileClick}
                             onAddPlace={handleAddPlaceClick}
-                            onDeletePopup={handleDeleteConfirmClick}
+                            // onDeletePopup={handleDeleteConfirmClick}
                             onCardClick={handleCardClick}
                             onCardLike={handleCardLike}
-                            onCardDelete={handleCardDelete}
+                            onCardDelete={handleDeleteConfirmClick}
                         />
 
                     } />
@@ -247,8 +250,10 @@ function App() {
 
                 {/* попап удалить карточку */}
                 <DeletePopup
+                    card={cardToDelete}
                     isOpen={isDeletePopupOpen}
                     onClose={closeAllPopups}
+                    onCardDelete={handleCardDelete}
                 />
                 {/* попап редактирования */}
                 <EditProfilePopup
