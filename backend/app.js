@@ -1,6 +1,5 @@
-// require('dotenv').config();
-// console.log(process.env.NODE_ENV);
 const express = require('express');
+require('dotenv').config();
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const validationErrors = require('celebrate').errors;

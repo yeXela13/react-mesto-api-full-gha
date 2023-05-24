@@ -1,7 +1,7 @@
-// const { JWT_SECRET } = process.env;
 const http2 = require('http2').constants;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { JWT_SECRET } = require('../config');
 const userSchema = require('../models/user');
 const NotFoundError = require('../handles/NotFoundError');
 
@@ -81,17 +81,15 @@ const login = (req, res, next) => {
   const { email, password } = req.body;
   return userSchema.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, 'super-secret-key', { expiresIn: '7d' });
+      const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
       res.send({ token });
     })
-    .then((matched) => {
-      if (!matched) {
-        return Promise.reject(new Error('Неправильные почта или пароль'));
+    .catch((error) => {
+      if (error.message === 'Неправильные почта или пароль') {
+        return next(new Error('Неправильные почта или пароль'));
       }
-      res.send({ message: 'Всё верно!' });
-      return next();
-    })
-    .catch(next);
+      return next(error);
+    });
 };
 
 module.exports = {
