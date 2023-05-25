@@ -1,6 +1,6 @@
 // const BASE_URL = "https://auth.nomoreparties.co";
-// export const BASE_URL = "http://localhost:3005";
-export const BASE_URL = "https://alexey.back.nomoredomains.monster";
+export const BASE_URL = "http://localhost:3005";
+// const BASE_URL = "http://alexey.back.nomoredomains.monster";
 
 function handleRequest(url, method, body, token) {
   const headers = { "Content-Type": "application/json" };
