@@ -7,7 +7,6 @@ const allowedCors = [
   'https://alexey.back.nomoredomains.monster',
   'http://localhost:3000',
   'http://localhost:3005',
-  '*',
 ];
 
 const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';

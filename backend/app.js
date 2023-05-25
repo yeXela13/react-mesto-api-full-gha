@@ -22,8 +22,6 @@ const app = express();
 app.use(express.json());
 app.use(bodyParser.json());
 
-app.use(cors);
-
 app.use(requestLogger);
 
 app.get('/crash-test', () => {
@@ -38,7 +36,7 @@ app.use(errorLogger);
 app.use(validationErrors());
 app.use(errors);
 app.use(handleError);
-
+app.use(cors);
 const { PORT = 3000 } = process.env;
 
 app.listen((PORT), () => {
