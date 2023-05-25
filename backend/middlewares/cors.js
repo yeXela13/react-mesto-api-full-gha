@@ -1,6 +1,6 @@
 const allowedCors = [
-  'http://51.250.93.202',
-  'https://10.128.0.15',
+  'http://51.250.71.49',
+  'https://51.250.71.49',
   'http://domainname.alexey.nomoredomains.monster',
   'https://domainname.alexey.nomoredomains.monster',
   'http://alexey.back.nomoredomains.monster',
