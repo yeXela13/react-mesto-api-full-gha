@@ -4,7 +4,7 @@ export const BASE_URL = "https://alexey.back.nomoredomains.monster";
 
 function handleRequest(url, method, body, token) {
   const headers = { "Content-Type": "application/json" };
-  const config = { method, headers };
+    const config = { method, headers, credentials: "include" };
   if (token !== undefined) {
     headers["Authorization"] = `Bearer ${token}`;
   }
