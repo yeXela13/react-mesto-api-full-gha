@@ -32,11 +32,6 @@ const handleError = ((err, req, res, next) => {
       message: `Передан несуществующий _id: ${err.value}`,
     });
   }
-  if (err.code === 11000) {
-    return res.status(http2.HTTP_STATUS_CONFLICT).send({
-      message: 'пользователь существует',
-    });
-  }
   res.status(http2.HTTP_STATUS_INTERNAL_SERVER_ERROR).send({
     message: `Что-то пошло не так ${err.name}: ${err.message}`,
   });

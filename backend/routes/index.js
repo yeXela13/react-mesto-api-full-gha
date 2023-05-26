@@ -11,7 +11,7 @@ router.use('/signup', signupRout);
 router.use(auth, userRouter);
 router.use(auth, cardRouter);
 
-router.use('*', (req, res, next) => {
+router.use('*', auth, (req, res, next) => {
   next(new NotFoundError('Страница не найдена'));
 });
 

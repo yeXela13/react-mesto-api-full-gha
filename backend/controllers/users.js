@@ -1,7 +1,7 @@
+const { NODE_ENV, JWT_SECRET } = process.env;
 const http2 = require('http2').constants;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { JWT_SECRET } = require('../config');
 const userSchema = require('../models/user');
 const NotFoundError = require('../handles/NotFoundError');
 
@@ -48,7 +48,13 @@ const createUser = async (req, res, next) => {
         name: user.name, about: user.about, avatar: user.avatar, email: user.email, _id: user._id,
       });
     })
-    .catch(next);
+    .catch((err) => {
+      if (err.code === 11000) {
+        next(new Error('Указанный email уже зарегистрирован. Пожалуйста используйте другой email'));
+      } else {
+        next(err);
+      }
+    });
 };
 
 const updateInfo = (req, res, next, updateData) => {
@@ -81,7 +87,7 @@ const login = (req, res, next) => {
   const { email, password } = req.body;
   return userSchema.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'super-secret-key', { expiresIn: '7d' });
       res.send({ token });
     })
     .catch((error) => {
