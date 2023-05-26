@@ -4,10 +4,10 @@ const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const validationErrors = require('celebrate').errors;
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const router = require('./routes/index');
 const { handleError } = require('./handles/handleError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const cors = require('./middlewares/cors');
 
 const mongooseUrl = 'mongodb://localhost:27017/mestodb';
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb')
@@ -21,6 +21,16 @@ const app = express();
 
 app.use(express.json());
 app.use(bodyParser.json());
+
+const corsAllowed = {
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsAllowed));
 
 app.use(requestLogger);
 
@@ -36,7 +46,7 @@ app.use(errorLogger);
 app.use(validationErrors());
 app.use(errors);
 app.use(handleError);
-app.use(cors);
+
 const { PORT = 3000 } = process.env;
 
 app.listen((PORT), () => {

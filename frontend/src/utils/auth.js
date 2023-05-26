@@ -1,10 +1,10 @@
 // const BASE_URL = "https://auth.nomoreparties.co";
 export const BASE_URL = "https://alexey.back.nomoredomains.monster";
-// const BASE_URL = "http://alexey.back.nomoredomains.monster";
+// export const BASE_URL = "http://localhost:3005";
 
 function handleRequest(url, method, body, token) {
   const headers = { "Content-Type": "application/json" };
-    const config = { method, headers, credentials: "include" };
+    const config = { method, headers };
   if (token !== undefined) {
     headers["Authorization"] = `Bearer ${token}`;
   }

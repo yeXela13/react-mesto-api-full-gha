@@ -8,7 +8,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 51.250.93.202
+IP-адрес http://51.250.71.49
 
 Frontend https://domainname.alexey.nomoredomains.monster
 

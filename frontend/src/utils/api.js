@@ -27,7 +27,6 @@ class Api {
     getUserInfo() {
         return this._request(`${this._baseUrl}/users/me`, {
             headers: this._checkHeaders(),
-            credentials: "include",
         })
     }
 
@@ -35,7 +34,6 @@ class Api {
         return this._request(`${this._baseUrl}/users/me`, {
             method: 'PATCH',
             headers: this._checkHeaders(),
-            credentials: "include",
             body: JSON.stringify({
                 name,
                 about
@@ -46,7 +44,6 @@ class Api {
     getInitialCards() {
         return this._request(`${this._baseUrl}/cards`, {
             headers: this._checkHeaders(),
-            credentials: "include",
         })
     }
 
@@ -54,7 +51,6 @@ class Api {
         return this._request(`${this._baseUrl}/cards`, {
             method: 'POST',
             headers: this._checkHeaders(),
-            credentials: "include",
             body: JSON.stringify({
                 link,
                 name
@@ -66,7 +62,6 @@ class Api {
         return this._request(`${this._baseUrl}/users/me/avatar`, {
             method: 'PATCH',
             headers: this._checkHeaders(),
-            credentials: "include",
             body: JSON.stringify({
                 avatar
             })
@@ -77,7 +72,6 @@ class Api {
         return this._request(`${this._baseUrl}/cards/${cardId}`, {
             method: 'DELETE',
             headers: this._checkHeaders(),
-            credentials: "include",
         })
     }
 
@@ -86,13 +80,11 @@ class Api {
             return this._request(`${this._baseUrl}/cards/${cardId}/likes`, {
                 method: 'DELETE',
                 headers: this._checkHeaders(),
-                credentials: "include",
             })
         }
         return this._request(`${this._baseUrl}/cards/${cardId}/likes`, {
             method: 'PUT',
             headers: this._checkHeaders(),
-            credentials: "include",
         })
     }
 }
