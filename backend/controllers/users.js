@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const userSchema = require('../models/user');
 const NotFoundError = require('../handles/NotFoundError');
+const ConflictError = require('../handles/ConflictError');
 
 const getUsers = (req, res, next) => {
   userSchema.find({})
@@ -50,7 +51,7 @@ const createUser = async (req, res, next) => {
     })
     .catch((err) => {
       if (err.code === 11000) {
-        next(new Error('Указанный email уже зарегистрирован. Пожалуйста используйте другой email'));
+        next(new ConflictError('Указанный email уже зарегистрирован. Пожалуйста используйте другой email'));
       } else {
         next(err);
       }
