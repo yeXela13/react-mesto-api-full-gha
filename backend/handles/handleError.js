@@ -5,6 +5,7 @@ const {
 const ForbiddenError = require('./ForbiddenError');
 const UnauthorizedError = require('./UnauthorizedError');
 const NotFoundError = require('./NotFoundError');
+const ConflictError = require('./ConflictError');
 
 const handleError = ((err, req, res, next) => {
   if (err instanceof UnauthorizedError) {
@@ -15,6 +16,9 @@ const handleError = ((err, req, res, next) => {
   }
   if (err instanceof NotFoundError) {
     return res.status(http2.HTTP_STATUS_NOT_FOUND).send({ message: err.message });
+  }
+  if (err instanceof ConflictError) {
+    return res.status(http2.HTTP_STATUS_CONFLICT).send({ message: err.message });
   }
   if (err instanceof ValidationError) {
     const message = Object.values(err.errors).map((error) => error.message).join(';');
